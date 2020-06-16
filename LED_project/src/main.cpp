@@ -24,18 +24,6 @@ int LedBounds(int LedValue)
 {
 	if(LedValue > NUM_LEDS) LedValue = (LedValue - NUM_LEDS);
 	if(LedValue < 0) LedValue = NUM_LEDS + LedValue;
-	
-	//if(LedValue < 180 && LedValue > 50) 
-	//{
-	//	return 0;//NUM_LEDS + LedValue;
-	//}
-	//if(LedValue <8) 
-	//	return 0;
-	
-	//if(LedValue > (230) )
-	//{
-	//	 return 0;
-	//}
 	return LedValue;
 }
 void RotateStep()

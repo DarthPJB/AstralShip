@@ -51,6 +51,8 @@
      firefox
      signal-desktop
      git
+     vlc
+     fractal
      vscode
    ];
 

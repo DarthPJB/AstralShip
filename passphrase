@@ -1,0 +1,5 @@
+network={
+	ssid="Imperial Recon"
+	#psk="Ecto1234"
+	psk=f6872d0f426e93cabfa014d6ffd01070a52b89a17b86c86be52955f97362c8a7
+}

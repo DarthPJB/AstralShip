@@ -1,8 +1,10 @@
 #include <FastLED.h>
 #define LED_PIN     7
+#define LED_PIN2     2
 #define NUM_LEDS    248
 #define LED_COL_MAX  255
 CRGB leds[NUM_LEDS];
+CRGB leds2[NUM_LEDS];
 
 void setup();
 void ClearLeds();
@@ -19,6 +21,12 @@ int LedBounds(int);
 void setup()
 {
 	FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+    FastLED.addLeds<WS2812, LED_PIN2, GRB>(leds2, NUM_LEDS);
+	for(int I=0;I<NUM_LEDS;I++)
+	{
+		leds2[I]=CRGB(255,255,255);
+		if(I%10) leds2[I]=CRGB(0,5,0);
+	};
 }
 int LedBounds(int LedValue)
 {
@@ -35,12 +43,21 @@ void RotateStep()
 		}
 		leds[0] = Temp;
 }
+void RotateStep2()
+{
+		CRGB Temp = leds2[NUM_LEDS-1];
+		for(int i=NUM_LEDS-1; i>0; i--)
+		{
+			leds2[i]=leds2[i-1];
+		}
+		leds2[0] = Temp;
+}
 void ClearLeds()
 {
 	for(int I=0;I<NUM_LEDS;I++)
 	{
 		leds[I]=CRGB(0,0,0);
-	}
+	}; 
 }
 
 void Show1()
@@ -213,12 +230,21 @@ void Show6()
 }
 void loop() 
 {
+	RotateStep2();
 	//Show3();
+	RotateStep2();
 	//Show1();
 	Show5b();
+	RotateStep2();
 	Show2b();
+	RotateStep2();
 	Show5();
+	RotateStep2();
 	for(int c=0; c<10;c++)
+	{
 		Show6();
+		RotateStep2();
+	}
 	Show2();
+	RotateStep2();
 }

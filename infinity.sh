@@ -1,4 +1,10 @@
 #!/bin/sh
+ThePID=$(<"script.pid")
+echo "KILLING PID $ThePID"
+kill -n 15 $ThePID
+sleep 1
+echo $$ > script.pid
+echo "Pid saved : $$"
 killall -9 mplayer
 killall -9 xwinwrap
 for (( ; ; ))

@@ -1,0 +1,1 @@
+{Filament guide v2 %!s(bool=true)} by {DanTech %!s(bool=true)} on Thingiverse: https://www.thingiverse.com/thing:3967212

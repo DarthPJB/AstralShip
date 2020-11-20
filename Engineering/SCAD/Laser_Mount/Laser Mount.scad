@@ -12,19 +12,21 @@ module Laser_Level_Gimble_Base()
 {
 
     origin = [0,0,-50];
-    Laser_Gimble_Width = 70;
+    Laser_Gimble_Width_Bottom = 70;
+    Laser_Gimble_Width_Top = 100;
+
 difference()
 {
     union()
     {
         translate(origin)
-           cylinder(100,50,50);
+           cylinder(h= 100, d1=Laser_Gimble_Width_Bottom, d2=Laser_Gimble_Width_Top);
     }
     LaserLevel();
 }
 }
 
-//LaserLevel();
+LaserLevel();
 
 #Laser_Level_Gimble_Base()
 

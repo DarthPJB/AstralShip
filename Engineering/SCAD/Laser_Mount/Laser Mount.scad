@@ -38,13 +38,19 @@ module Laser_Level_Gimble_Base()
 
 //LaserLevel();
 
+//if not a preview, render with rounding for final-print
 if($preview == false)
 {
     minkowski()
+    {
         Laser_Level_Gimble_Base();
+        cylinder(1);
+    }
 }
 else
+{
+    //if a preview render, do not round-anything, and also show other parts
     Laser_Level_Gimble_Base();
-
-translate([0,0,100])
-    Laser_Measure_Mount();
+    translate([0,0,100])
+        %Laser_Measure_Mount();
+}

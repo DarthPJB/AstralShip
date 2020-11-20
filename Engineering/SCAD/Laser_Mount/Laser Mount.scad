@@ -18,15 +18,15 @@ module Laser_Level_Gimble_Base()
     Laser_Gimble_Width_Bottom = 70;
     Laser_Gimble_Width_Top = 100;
 
-difference()
-{
-    union()
+    difference()
     {
-        translate(origin)
-           cylinder(h= Laser_Gimble_Height, d1=Laser_Gimble_Width_Bottom, d2=Laser_Gimble_Width_Top);
+        union()
+        {
+            translate(origin)
+            cylinder(h= Laser_Gimble_Height, d1=Laser_Gimble_Width_Bottom, d2=Laser_Gimble_Width_Top);
+        }
+        LaserLevel();
     }
-    LaserLevel();
-}
 }
 
 //LaserLevel();
@@ -34,4 +34,4 @@ difference()
 Laser_Level_Gimble_Base()
 
 translate([0,0,100])
-    #Laser_Measure_Mount();
+    Laser_Measure_Mount();

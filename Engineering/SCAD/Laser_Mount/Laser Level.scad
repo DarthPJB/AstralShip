@@ -26,6 +26,9 @@ Circle_Height = 13;
 //lower cone diameter
 Cone_Bottom_Circle_Diameter = 78;
 
+//Additional value providing extra distance in battery-case width (to properly intersect)
+Battery_Top_Overlap = 10;
+
 LaserLevel_Total_Height = 100;
 
 origin = [0,0,-BatteryBox_Top_Depth /2];
@@ -36,10 +39,12 @@ origin = [0,0,-BatteryBox_Top_Depth /2];
         //Combine Battery Box and Conical Center
         
         //Top Circular fitting is modeled as a rough cylender
-        cylinder(h = Circle_Height + Tolerance,d1 = Circle_Diameter_BatteryBox_Top+(Tolerance * 2) ,d2 = Circle_Diameter +(Tolerance * 2), center=true);
+        cylinder(h = Circle_Height + Tolerance,
+            d1 = Circle_Diameter_BatteryBox_Top+(Tolerance * 2),
+            d2 = Circle_Diameter + (Tolerance * 2), center=true);
         //Battery Box is a rough cube, translated into position.
         translate([BatteryBox_Circle_Center_Distance - (BatteryBox_Top_Depth/2),0,-BatteryBox_Height/2])
-            cube([BatteryBox_Top_Depth + Tolerance,
+            cube([BatteryBox_Top_Depth + Tolerance + Battery_Top_Overlap,
                 BatteryBox_Width+(Tolerance *2),
                 BatteryBox_Height+ (Tolerance *2)],center=true);
         //Conical top secion modeled roughly as a cone

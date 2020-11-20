@@ -16,4 +16,3 @@ module Laser_Measure()
         }
     }
 }
-

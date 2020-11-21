@@ -1,9 +1,19 @@
 // Laser measure recreation
-// John Bargman 2020-11-19
+// John Bargman & Colin 2020-11-19
 
 // All measurements in millimeters
 
+width=25.5;
+depth=47;
+Top_height=40;
+Bottom_height=20;
+Middlepart_height=50;
+
+//cube([width,depth,height], center)
+
 module Laser_Measure()
+
+
 {
     origin = [0,0,0];
     origin_rotation = [0,90,90];
@@ -12,7 +22,35 @@ module Laser_Measure()
     {
         rotate(origin_rotation)
         {
-            cylinder(100,10,10, center = true);   
+            translate([0,0,36]){
+            minkowski(){
+            cube([width,depth,Top_height], center = true); 
+              rotate([0,30,0]){
+                cylinder(r=2,h=1);
+                      
+              }
+            }
+        }
+        translate([0,0,4]){
+           minkowski() {
+            cube([width,depth,Bottom_height], center = true); 
+              cylinder(r=2,h=1);
+           }
+       }
+            translate([0,0,-33]){
+          minkowski(){  
+            cube([width,depth,Middlepart_height], center = true); 
+              rotate([0,30,0]){
+              cylinder(r=2,h=1);
+          }
+      }
+  }
+           // #cube([29,51,116], center = true);   
+  
+            
+
         }
     }
 }
+
+Laser_Measure();

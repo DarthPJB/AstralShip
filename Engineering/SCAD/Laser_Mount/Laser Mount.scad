@@ -44,7 +44,7 @@ module Laser_Level_Gimble_Base()
 
 module Laser_Level_Gimble_Top()
 {
-        origin = [0,0,Tolerance * 2];
+        origin = [0,0,Tolerance * 6];
 
         difference()
         {
@@ -70,7 +70,7 @@ if($preview == false)
     minkowski()
     {
         Laser_Level_Gimble_Top();
-        cylinder(1);
+        sphere(1);
     }
 }
 else

@@ -12,7 +12,7 @@ module Laser_Measure_Mount()
 
     translate(origin)
     {
-        Laser_Measure();
+        %Laser_Measure();
     }
 
 }

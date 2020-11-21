@@ -9,7 +9,7 @@ use <Laser Measure Mount.scad>
 //use <Round-Anything\MinkowskiRound.scad>
 
 //Set to height detail only for rendering:
-$fn= $preview == true? 10 : 20;
+$fn= $preview == true? 20 : 35;
 
 Tolerance = 0.1;
 Mounting_Screw_Diamiter = 8 + Tolerance;
@@ -77,7 +77,7 @@ else
 {
     //if a preview render, do not round-anything, and also show other parts
     Laser_Level_Gimble_Base();
-    translate([0,0,100])
-        %Laser_Measure_Mount();
-    #Laser_Level_Gimble_Top();
+    translate([0,0,70])
+        Laser_Measure_Mount();
+    Laser_Level_Gimble_Top();
 }

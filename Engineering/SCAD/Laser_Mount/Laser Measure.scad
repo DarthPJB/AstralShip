@@ -16,7 +16,7 @@ module Laser_Measure()
 
 {
     origin = [0,0,0];
-    origin_rotation = [0,90,90];
+    origin_rotation = [0,90,0];
 
     translate(origin)
     {

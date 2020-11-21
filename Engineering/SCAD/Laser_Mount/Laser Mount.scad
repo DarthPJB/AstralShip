@@ -13,24 +13,24 @@ $fn= $preview == true? 20 : 35;
 
 Tolerance = 0.1;
 Mounting_Screw_Diamiter = 8 + Tolerance;
-Laser_Gimble_Height = 45;
+Laser_Gimble_Height = 30;
 Laser_Gimble_Width_Top = 100;
 Laser_Gimble_Guide_Height = Laser_Gimble_Height / 3;
+Laser_Gimble_Width_Bottom = 80;
 
 module Laser_Level_Gimble_Base()
 {
     origin = [0,0,-Laser_Gimble_Height];
 
-    //Only do rounding in final render
-    Laser_Gimble_Width_Bottom = 70;
-
-    //minkowskiOutsideRound(0.5, 1.5,Rounding, [Laser_Gimble_Width_Top,Laser_Gimble_Width_Top,Laser_Gimble_Height])
         difference()
         {
-            union()
+            translate(origin)
+            minkowski()
             {
-                translate(origin)
-                cylinder(h= Laser_Gimble_Height, d1=Laser_Gimble_Width_Bottom, d2=Laser_Gimble_Width_Top);
+                cylinder(h= Laser_Gimble_Height, 
+                    d1=Laser_Gimble_Width_Bottom, 
+                    d2=Laser_Gimble_Width_Top);
+                sphere(1);
             }
             union()
             {
@@ -52,7 +52,7 @@ module Laser_Level_Gimble_Top()
                 cylinder(h=Laser_Gimble_Guide_Height, d = Laser_Gimble_Width_Top /1.2);
             translate(origin)
                 translate([0,0,-Tolerance])
-                    cylinder(Laser_Gimble_Guide_Height + Tolerance * 2, d= Mounting_Screw_Diamiter);
+                    cylinder(Laser_Gimble_Guide_Height + (Tolerance * 2), d= Mounting_Screw_Diamiter);
         }
 
 }
@@ -62,11 +62,7 @@ module Laser_Level_Gimble_Top()
 //if not a preview, render with rounding for final-print
 if($preview == false)
 {
-    minkowski()
-    {
-        Laser_Level_Gimble_Base();
-        cylinder(1);
-    }
+    Laser_Level_Gimble_Base();
     minkowski()
     {
         Laser_Level_Gimble_Top();

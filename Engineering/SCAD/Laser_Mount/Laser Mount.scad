@@ -15,6 +15,7 @@ Laser_Gimble_TopWall_Width = 2;
 
 Tolerance = 0.1;
 Mounting_Screw_Diamiter = 8 + Tolerance;
+Mounting_Screw_Distance = 20;
 Laser_Gimble_Height = 30;
 Laser_Gimble_Width_Top = 100;
 Laser_Gimble_Guide_Height = Laser_Gimble_Height / 3;
@@ -54,26 +55,41 @@ module Laser_Level_Gimble_Base()
             //Add laser-level to difference - removing it from above 
             LaserLevel();
 
-            //Also remove mounting hole for Connection screw
+            //Also remove mounting holes
             translate(origin)
-                translate([0,0,-Tolerance])
-                    cylinder(Laser_Gimble_Height*2, d= Mounting_Screw_Diamiter);
+            union()
+            {
+
+                translate([Mounting_Screw_Distance,Mounting_Screw_Distance,-Tolerance])
+                    cylinder(Laser_Gimble_Height*2, d= Mounting_Screw_Diamiter + Tolerance);
+                translate([Mounting_Screw_Distance,-Mounting_Screw_Distance,-Tolerance])
+                    cylinder(Laser_Gimble_Height*2, d= Mounting_Screw_Diamiter+ Tolerance);
+                translate([-Mounting_Screw_Distance,0,-Tolerance])
+                    cylinder(Laser_Gimble_Height*2, d= Mounting_Screw_Diamiter+ Tolerance);
+            }
         }
 }
 
 module Laser_Level_Gimble_Top()
 {
-        origin = [0,0,Tolerance * 6];
+        origin = [0,0,Laser_Gimble_TopWall_Width + Tolerance * 6];
 
-        difference()
+        union()
         {
             translate(origin)
                 cylinder(h=Laser_Gimble_Guide_Height, d = Laser_Gimble_Width_Top /1.2);
 
-            //Also remove mounting hole for Connection screw
-            translate(origin)
-                translate([0,0,-Tolerance])
-                    cylinder(Laser_Gimble_Guide_Height + (Tolerance * 2), d= Mounting_Screw_Diamiter);
+            translate(origin - [0,0,Laser_Gimble_TopWall_Width])
+            union()
+            {
+            //Also Add mounting holes
+                translate([Mounting_Screw_Distance,Mounting_Screw_Distance,-Tolerance])
+                    cylinder(Laser_Gimble_Guide_Height, d= Mounting_Screw_Diamiter - Tolerance);
+                translate([Mounting_Screw_Distance,-Mounting_Screw_Distance,-Tolerance])
+                    cylinder(Laser_Gimble_Guide_Height, d= Mounting_Screw_Diamiter - Tolerance);
+                translate([-Mounting_Screw_Distance,0,-Tolerance])
+                    cylinder(Laser_Gimble_Guide_Height, d= Mounting_Screw_Diamiter - Tolerance);
+            }
         }
 
 }
@@ -88,8 +104,8 @@ if($preview == false)
 else
 {
     //if a preview render, do not round-anything, and also show other parts
-    #Laser_Level_Gimble_Base();
+    Laser_Level_Gimble_Base();
     translate([0,0,70])
         Laser_Measure_Mount();
-    //Laser_Level_Gimble_Top();
+    %Laser_Level_Gimble_Top();
 }

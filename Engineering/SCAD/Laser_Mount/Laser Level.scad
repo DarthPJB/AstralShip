@@ -6,43 +6,43 @@
 // Top of the laser level
 module LaserLevel()
 {
-//Add this tolerance to all measurements (to slip-fit)
-Tolerance = 0.5;
-//Set to height detail only for rendering:
-$fn= $preview == true? 50 : 100;
+    //Add this tolerance to all measurements (to slip-fit)
+    Tolerance = 0.5;
+    //Set to height detail only for rendering:
+    $fn= $preview == true? 50 : 100;
 
 
-//measurements for the cylender section at the top of the cone.
-Circle_Diameter = 67;
-Circle_Diameter_BatteryBox_Top = 68;
-Circle_Radius= Circle_Diameter /2 ;
+    //measurements for the cylender section at the top of the cone.
+    Circle_Diameter = 67;
+    Circle_Diameter_BatteryBox_Top = 67.5;
+    Circle_Radius= Circle_Diameter /2 ;
 
-//measurements for the battery box
-BatteryBox_Width = 49 
-    + (Tolerance *2);
-BatteryBox_Height=62
-    + (Tolerance *2);
+    //measurements for the battery box
+    BatteryBox_Width = 47 
+        + (Tolerance *2);
+    BatteryBox_Height=62
+        + (Tolerance *2);
 
-BatteryBox_Bottom_Depth=7.5;
-BatteryBox_Top_Middle_Depth=6;
+    BatteryBox_Bottom_Depth=7.5;
+    BatteryBox_Top_Middle_Depth=6;
 
-Window_Height = 35;
-Window_Width = 25;
-Window_Depth = 10;
+    Window_Height = 35;
+    Window_Width = 25;
+    Window_Depth = 10;
 
-//lower cone diameter
-Cone_Top_Circle_Diameter = 72;
-Cone_Middle_Circle_Diameter = 79;
-Cone_Bottom_Circle_Diameter = 78;
+    //lower cone diameter
+    Cone_Top_Circle_Diameter = 74;
+    Cone_Middle_Circle_Diameter = 79;
+    Cone_Bottom_Circle_Diameter = 78;
 
-Circle_Height = 12;
-BatteryBox_Top_Height=14;
-Level_UpperMiddle_distance = 30;
-Level_window_distance = 35;
-Level_Middle_Distance = 55;
-LaserLevel_Total_Height = 100;
+    Circle_Height = 12;
+    BatteryBox_Top_Height=14;
+    Level_UpperMiddle_distance = 30;
+    Level_window_distance = 35;
+    Level_Middle_Distance = 55;
+    LaserLevel_Total_Height = 100;
 
-origin = [0,0,0];
+    origin = [0,0,0];
 
     translate(origin)
     union()

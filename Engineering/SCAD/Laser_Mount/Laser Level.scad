@@ -36,7 +36,7 @@ module LaserLevel()
     Cone_Bottom_Circle_Diameter = 78;
 
     Circle_Height = 12;
-    BatteryBox_Top_Height=14;
+    BatteryBox_Top_Height=15;
     Level_UpperMiddle_distance = 30;
     Level_window_distance = 35;
     Level_Middle_Distance = 55;

@@ -6,7 +6,7 @@
 // Uses Laser-level & Laser Measure Mount
 use <Laser Level.scad>
 use <Laser Measure Mount.scad>
-//use <Round-Anything\MinkowskiRound.scad>
+
 
 //Set to height detail only for rendering:
 $fn= $preview == true? 20 : 30;
@@ -22,9 +22,11 @@ Laser_Gimble_Guide_Height = Laser_Gimble_Height / 3;
 Laser_Gimble_Width_Bottom = 80;
 Laser_Gimble_Cull_Width = 85;
 
+minkowskiRound = 1;
+
 module Laser_Level_Gimble_Base()
 {
-    origin = [0,0,-(Laser_Gimble_Height)];
+    origin = [0,0,-(Laser_Gimble_Height + Laser_Gimble_TopWall_Width + minkowskiRound)];
 
         difference()
         {
@@ -50,7 +52,7 @@ module Laser_Level_Gimble_Base()
                     }
                 }
                 //Sphere is used for minkowski - to apply rounding
-                sphere(1);
+                sphere(minkowskiRound);
             }
             //Add laser-level to difference - removing it from above 
             LaserLevel();
@@ -72,7 +74,7 @@ module Laser_Level_Gimble_Base()
 
 module Laser_Level_Gimble_Top()
 {
-        origin = [0,0,Laser_Gimble_TopWall_Width + Tolerance * 6];
+        origin = [0,0,Tolerance];
 
         union()
         {
@@ -99,13 +101,14 @@ module Laser_Level_Gimble_Top()
 //if not a preview, render with rounding for final-print
 if($preview == false)
 {
-    Laser_Level_Gimble_Base();
+    //Laser_Level_Gimble_Base();
+    Laser_Level_Gimble_Top();
 }
 else
 {
     //if a preview render, do not round-anything, and also show other parts
-    Laser_Level_Gimble_Base();
+    %Laser_Level_Gimble_Base();
     translate([0,0,70])
         Laser_Measure_Mount();
-    %Laser_Level_Gimble_Top();
+    Laser_Level_Gimble_Top();
 }

@@ -23,7 +23,7 @@ Laser_Gimble_Cull_Width = 85;
 
 module Laser_Level_Gimble_Base()
 {
-    origin = [0,0,-(Laser_Gimble_Height + Laser_Gimble_TopWall_Width)];
+    origin = [0,0,-(Laser_Gimble_Height)];
 
         difference()
         {
@@ -57,7 +57,7 @@ module Laser_Level_Gimble_Base()
             //Also remove mounting hole for Connection screw
             translate(origin)
                 translate([0,0,-Tolerance])
-                    cylinder(Laser_Gimble_Height + Tolerance * 2, d= Mounting_Screw_Diamiter);
+                    cylinder(Laser_Gimble_Height*2, d= Mounting_Screw_Diamiter);
         }
 }
 
@@ -88,8 +88,8 @@ if($preview == false)
 else
 {
     //if a preview render, do not round-anything, and also show other parts
-    Laser_Level_Gimble_Base();
+    #Laser_Level_Gimble_Base();
     translate([0,0,70])
         Laser_Measure_Mount();
-    %Laser_Level_Gimble_Top();
+    //Laser_Level_Gimble_Top();
 }

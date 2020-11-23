@@ -163,8 +163,8 @@ else
     //if a preview render, do not round-anything, and also show other parts
     %Laser_Level_Gimble_Base();
     //Use a union, hull, or some module call and assemble here
-    translate([0,0,Gimble_Arm_Height ])
-        rotate([0,90,0])
+    translate([0,0, Gimble_Arm_Height])
+        rotate([0,0,90])
         Laser_Measure_Mount();
 
 

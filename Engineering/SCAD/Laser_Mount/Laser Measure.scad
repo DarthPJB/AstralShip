@@ -3,54 +3,28 @@
 
 // All measurements in millimeters
 
-width=25.5;
-depth=47;
-Top_height=40;
-Bottom_height=20;
-Middlepart_height=50;
+//Set to height detail only for rendering:
+$fn= $preview == true? 20 : 30;
+minkowskiRound = 1;
 
-//cube([width,depth,height], center)
+Width=52;
+Depth=115.5;
+Height=29;
+
+Tolerance = 0.2;
+origin = [0,0,0];
 
 module Laser_Measure()
-
-
 {
-    origin = [0,0,0];
-    origin_rotation = [0,90,0];
-
     translate(origin)
-    {
-        rotate(origin_rotation)
-        {
-            translate([0,0,36]){
-            minkowski(){
-            cube([width,depth,Top_height], center = true); 
-              rotate([0,30,0]){
-                cylinder(r=2,h=1);
-                      
-              }
-            }
-        }
-        translate([0,0,4]){
-           minkowski() {
-            cube([width,depth,Bottom_height], center = true); 
-              cylinder(r=2,h=1);
-           }
-       }
-            translate([0,0,-33]){
-          minkowski(){  
-            cube([width,depth,Middlepart_height], center = true); 
-              rotate([0,30,0]){
-              cylinder(r=2,h=1);
+      union()
+      {
+          minkowski()
+          {
+            cube([Width - (minkowskiRound*2), Depth- (minkowskiRound*2), Height- (minkowskiRound*2)], center = true); 
+            sphere(r=minkowskiRound);    
           }
       }
-  }
-           // #cube([29,51,116], center = true);   
-  
-            
-
-        }
-    }
 }
 
 Laser_Measure();

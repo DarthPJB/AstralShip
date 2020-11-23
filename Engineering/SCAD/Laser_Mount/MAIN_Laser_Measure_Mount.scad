@@ -16,3 +16,5 @@ module Laser_Measure_Mount()
     }
 
 }
+
+Laser_Measure_Mount();

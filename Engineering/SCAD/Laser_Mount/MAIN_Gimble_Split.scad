@@ -12,22 +12,26 @@ use <MAIN_Laser_Measure_Mount.scad>
 $fn= $preview == true? 20 : 30;
 
 
-Tolerance = 0.1;
+Tolerance = 0.2;
 Laser_Gimble_Width_Top = 100;
 Laser_Gimble_Cull_Width = 85;
 
 
-Rounding_Hull_Sphere_Seperation = 25;
-Rounding_Hull_Sphere_Diameter = 45;
+Rounding_Hull_Sphere_Seperation = 20;
+Rounding_Hull_Sphere_Diameter = 40;
 Rounding_Hull_Sphere_Height = Rounding_Hull_Sphere_Diameter + 20;
 
 Gimble_Arm_Height = 85;
 
-
+Gimble_Cuff_Squeeze = 2;
 minkowskiRound=1;
 
 origin = [0,0,minkowskiRound + Tolerance];
 origin_rotation = [0,0,0];
+
+Gimble_Arm_Cuff_Diameter = 18;
+Gimble_Cuff_Center_Depth = 30;
+Gimble_Arm_Retraction = 5 + (minkowskiRound * 2);
 
 // Module defintion
 module Gimble_Split_Base()
@@ -41,29 +45,45 @@ module Gimble_Split_Base()
                 {
                     minkowski()
                     {
-                        cylinder(h=Gimble_Arm_Height,d=Laser_Gimble_Cull_Width-minkowskiRound  *2);
+                        cylinder(h=Gimble_Arm_Height-minkowskiRound  *2,d=Laser_Gimble_Cull_Width - ((minkowskiRound + Tolerance) * 2) );
                         sphere(minkowskiRound);
                     }
                     union()
                     {
                         HullSphere1 = [Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height];
                         HullSphere2 = [-Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height];
+                        HullSphere3 = [Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height*2];
+                        HullSphere4 = [-Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height*2];
+                        HullSphere5 = [Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height - 20];
+                        HullSphere6 = [-Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height - 20];
+
+                        HullSphere7 = [Laser_Gimble_Cull_Width/2,     Laser_Gimble_Cull_Width/2, Gimble_Arm_Height /1.7];
+                        HullSphere8 = [-Laser_Gimble_Cull_Width/2,    Laser_Gimble_Cull_Width/2, Gimble_Arm_Height /1.7];
+                        HullSphere9 = [Laser_Gimble_Cull_Width/2,     -Laser_Gimble_Cull_Width/2, Gimble_Arm_Height/1.7];
+                        HullSphere10 = [-Laser_Gimble_Cull_Width/2,   -Laser_Gimble_Cull_Width/2, Gimble_Arm_Height /1.7];
+
                         translate(HullSphere1)
                             sphere(Rounding_Hull_Sphere_Diameter);
                         translate(HullSphere2)
                             sphere(Rounding_Hull_Sphere_Diameter);
-                        HullSphere3 = [Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height*2];
-                        HullSphere4 = [-Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height*2];
                         translate(HullSphere3)
                             sphere(Rounding_Hull_Sphere_Diameter);
                         translate(HullSphere4)
                             sphere(Rounding_Hull_Sphere_Diameter);
-                            HullSphere5 = [Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height - 20];
-                            HullSphere6 = [-Rounding_Hull_Sphere_Seperation,0,Rounding_Hull_Sphere_Height - 20];
-                            translate(HullSphere5)
-                                sphere(Rounding_Hull_Sphere_Diameter);
-                            translate(HullSphere6)
-                                sphere(Rounding_Hull_Sphere_Diameter);
+                        translate(HullSphere5)
+                            sphere(Rounding_Hull_Sphere_Diameter);
+                        translate(HullSphere6)
+                            sphere(Rounding_Hull_Sphere_Diameter);
+
+
+                        translate(HullSphere7)
+                            sphere(Rounding_Hull_Sphere_Diameter/1.2);
+                        translate(HullSphere8)
+                            sphere(Rounding_Hull_Sphere_Diameter/1.2);
+                        translate(HullSphere9)
+                            sphere(Rounding_Hull_Sphere_Diameter/1.2);
+                        translate(HullSphere10)
+                            sphere(Rounding_Hull_Sphere_Diameter/1.2);
                     }
                 }
         }
@@ -74,29 +94,80 @@ module Gimble_Base_Split_Final()
 {
     union()
     {
-        Gimble_Split_Base();
-        translate(-origin)
-            Laser_Level_Gimble_Top();
-        translate(origin + [0,0,Gimble_Arm_Height])
-            rotate([90,0,0])
-                cylinder(r=10, h=100, center=true);
+        difference()
+        {
+            union()
+            {
+                translate(origin + [0,0,Gimble_Arm_Height])
+                    rotate([90,0,0])
+                        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance) * 2, h= Laser_Gimble_Cull_Width - Gimble_Arm_Retraction, center=true);
+                Gimble_Split_Base();
+                translate(-origin)
+                Laser_Level_Gimble_Top();
+            }
+            union()
+            {
+                //Use two cubes to carve the outside
+                translate(origin + [-Laser_Gimble_Cull_Width/2 - Gimble_Arm_Cuff_Diameter + Gimble_Cuff_Squeeze,-Laser_Gimble_Cull_Width/2 , Gimble_Arm_Height /2])
+                    cube([Laser_Gimble_Cull_Width/2+ Tolerance, Laser_Gimble_Cull_Width, Gimble_Arm_Height]);
+                translate(origin + [Gimble_Arm_Cuff_Diameter - Gimble_Cuff_Squeeze,-(Laser_Gimble_Cull_Width/2), Gimble_Arm_Height /2])
+                    cube([Laser_Gimble_Cull_Width/2, Laser_Gimble_Cull_Width, Gimble_Arm_Height]);
+
+                //Use two cubes to remove the outside-edge (to make a printable flat area)
+                translate([-Laser_Gimble_Cull_Width/2,(Laser_Gimble_Cull_Width/2)- Gimble_Arm_Retraction/2 - Tolerance,-10])
+                    cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+                translate([-Laser_Gimble_Cull_Width/2,-Laser_Gimble_Cull_Width,-10])
+                    cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2 + Gimble_Arm_Retraction/2 + Tolerance, Gimble_Arm_Height * 2]);
+
+                //and two cylinders to carve the inside
+                translate(origin + [0,0,Gimble_Arm_Height])
+                    rotate([90,0,0])
+                        cylinder(d=Gimble_Arm_Cuff_Diameter * 2.1, h= Gimble_Cuff_Center_Depth * 2 + Tolerance, center=true);
+                translate(origin + [0,0,Gimble_Arm_Height])
+                    rotate([90,0,0])
+                       cylinder(d=Gimble_Arm_Cuff_Diameter+ Tolerance, h=(Laser_Gimble_Cull_Width - Gimble_Arm_Retraction) + Tolerance * 2, center=true);
+            }
+        }
+    }
+
+}
+
+
+module Gimble_Base_Split_P1()
+{
+    difference()
+    {
+        Gimble_Base_Split_Final();
+        translate([-Laser_Gimble_Cull_Width/2,-Tolerance,-10])
+            cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
     }
 }
 
+module Gimble_Base_Split_P2()
+{
+    difference()
+    {
+        Gimble_Base_Split_Final();
+        translate([-Laser_Gimble_Cull_Width/2,(-Laser_Gimble_Cull_Width/2)+Tolerance,-10])
+            cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+    }
+}
 //if not a preview, render with rounding for final-print
 if($preview == false)
 {
-    Gimble_Base_Split_Final();
+    Gimble_Base_Split_P1();
+    !Gimble_Base_Split_P2();
 }
 else
 {
     //if a preview render, do not round-anything, and also show other parts
-    #Laser_Level_Gimble_Base();
+    %Laser_Level_Gimble_Base();
     //Use a union, hull, or some module call and assemble here
     translate([0,0,Gimble_Arm_Height ])
         rotate([0,90,0])
         Laser_Measure_Mount();
 
 
-    Gimble_Base_Split_Final();
+    Gimble_Base_Split_P1();
+    Gimble_Base_Split_P2();
 }

@@ -133,41 +133,67 @@ module Gimble_Base_Split_Final()
 }
 
 
-module Gimble_Base_Split_P1()
+module Gimble_Base_Split_V1()
 {
-    difference()
+    color("#550033")
     {
-        Gimble_Base_Split_Final();
-        translate([-Laser_Gimble_Cull_Width/2,-Tolerance,-10])
-            cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+        difference()
+        {
+            Gimble_Base_Split_Final();
+            translate([-Laser_Gimble_Cull_Width/2,-Tolerance,-10])
+                cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+        }
     }
 }
 
-module Gimble_Base_Split_P2()
+module Gimble_Base_Split_V2()
 {
-    difference()
+    color("#33cc55")
     {
-        Gimble_Base_Split_Final();
-        translate([-Laser_Gimble_Cull_Width/2,(-Laser_Gimble_Cull_Width/2)+Tolerance,-10])
-            cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+        difference()
+        {
+            Gimble_Base_Split_Final();
+            translate([-Laser_Gimble_Cull_Width/2,(-Laser_Gimble_Cull_Width/2)+Tolerance,-10])
+                cube([Laser_Gimble_Cull_Width,Laser_Gimble_Cull_Width/2, Gimble_Arm_Height * 2]);
+        }
     }
 }
-//if not a preview, render with rounding for final-print
-if($preview == false)
-{
-    Gimble_Base_Split_P1();
-    !Gimble_Base_Split_P2();
-}
-else
-{
-    //if a preview render, do not round-anything, and also show other parts
-    %Laser_Level_Gimble_Base();
-    //Use a union, hull, or some module call and assemble here
-    translate([0,0, Gimble_Arm_Height])
-        rotate([0,0,90])
-        Laser_Measure_Mount();
 
-
-    Gimble_Base_Split_P1();
-    Gimble_Base_Split_P2();
+module Gimble_Angle_Guide()
+{
+    GuideOrigin = origin + [0,0,Gimble_Arm_Height];
+    translate(GuideOrigin)
+    rotate([90,0,0])
+    difference()
+    {
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5, h= Laser_Gimble_Cull_Width - Gimble_Arm_Retraction - 1, center=true);
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 2, h= Laser_Gimble_Cull_Width, center=true);
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5 + Tolerance, h= Laser_Gimble_Cull_Width - Gimble_Arm_Cuff_Diameter, center=true);
+        rotate([-90,0,0])
+translate(-GuideOrigin + [0,.2,0] )
+                Gimble_Base_Split_V1();                
+        translate([-Laser_Gimble_Cull_Width,-Laser_Gimble_Cull_Width,-Gimble_Arm_Height])
+            cube([Laser_Gimble_Cull_Width*2,Laser_Gimble_Cull_Width*2, Gimble_Arm_Height]);
+        translate([0,0,Gimble_Cuff_Center_Depth + 10])
+        {
+            for(angle = [5:10:360])
+            {
+                rotate([angle,90,0])
+                translate([0,35,0])
+                //rotate([angle-45,0,0])
+                    cube([10,5,.1]);
+            }
+            for(angle = [0:10:360])
+            {
+                rotate([angle,90,0])
+                translate([0,30,0])
+                //rotate([angle-45,0,0])
+                    cube([10,15,.1]);
+            }
+        }
+    }
 }
+
+Gimble_Base_Split_V1();
+Gimble_Base_Split_V2();
+!Gimble_Angle_Guide();

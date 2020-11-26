@@ -169,6 +169,7 @@ module Gimble_Angle_Guide()
         cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5, h= Laser_Gimble_Cull_Width - Gimble_Arm_Retraction - 1, center=true);
         cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 2, h= Laser_Gimble_Cull_Width, center=true);
         cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5 + Tolerance, h= Laser_Gimble_Cull_Width - Gimble_Arm_Cuff_Diameter, center=true);
+        echo ((Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5);
         rotate([-90,0,0])
 translate(-GuideOrigin + [0,.2,0] )
                 Gimble_Base_Split_V1();                
@@ -194,6 +195,65 @@ translate(-GuideOrigin + [0,.2,0] )
     }
 }
 
-Gimble_Base_Split_V1();
-Gimble_Base_Split_V2();
-!Gimble_Angle_Guide();
+module Gimble_Angle_Guide2()
+{
+    GuideOrigin = origin + [0,0,Gimble_Arm_Height];
+    translate(GuideOrigin)
+    rotate([90,0,0])
+    difference()
+    {
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 15, h= Laser_Gimble_Cull_Width - Gimble_Arm_Retraction - 1, center=true);
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 5, h= Laser_Gimble_Cull_Width, center=true);
+        cylinder(d=(Gimble_Arm_Cuff_Diameter + Tolerance * 2) * 15 + Tolerance, h= Laser_Gimble_Cull_Width - Gimble_Arm_Cuff_Diameter, center=true);
+        //rotate([-90,0,0])
+        //translate(-GuideOrigin + [0,.2,0] )
+        //                #Gimble_Angle_Guide();                
+        translate([-Laser_Gimble_Cull_Width*2.5,-Laser_Gimble_Cull_Width*2.5,-Gimble_Arm_Height])
+            cube([Laser_Gimble_Cull_Width*5,Laser_Gimble_Cull_Width*5, Gimble_Arm_Height]);
+        union()
+        translate([0,0,Gimble_Cuff_Center_Depth + 10])
+        {
+            for(angle = [.5:1:360])
+            {
+                rotate([angle,90,0])
+                translate([0,125,0])
+                //rotate([angle-45,0,0])
+                    cube([10,2.5,.2]);
+            }
+            for(angle = [5:10:360])
+            {
+                rotate([angle,90,0])
+                translate([0,125,0])
+                //rotate([angle-45,0,0])
+                    cube([10,10,.2]);
+            }
+            for(angle = [0:1:360])
+            {
+                rotate([angle,90,0])
+                translate([0,125,0])
+                //rotate([angle-45,0,0])
+                    cube([10,5,.2]);
+            }
+            for(angle = [0:10:360])
+            {
+                rotate([angle,90,0])
+                translate([0,120,0])
+                //rotate([angle-45,0,0])
+                    cube([10,15,.2]);
+            }
+        }
+        cube([200,200,100]);
+        translate([-200,-200,0])
+            cube([200,400,100]);
+        translate([0,-80,25])
+            cylinder(h=50, d=70, center=true);
+        translate([80,0,25])
+            cylinder(h=50, d=70, center=true);
+        translate([70,-70,25])
+            #cylinder(h=50, d=50, center=true);
+    }
+}
+
+//Gimble_Base_Split_V1();
+//Gimble_Base_Split_V2();
+Gimble_Angle_Guide2();

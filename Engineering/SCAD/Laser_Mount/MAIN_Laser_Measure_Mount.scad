@@ -14,11 +14,11 @@ Tolerance = 0.2;
 origin = [0,0,1 + Tolerance];
 
 
-Measure_Holder_Length = 30;
+Measure_Holder_Length = 90;
 Measure_Holder_Wall_Width = 3;
 Measure_Holder_Floor_Width = 3;
 
-Measure_Pointer_Length = 40;
+Measure_Pointer_Length = 120;
 
 Measure_Width=52 + Tolerance  *2;
 Measure_Depth=115.5+ Tolerance  *2;
@@ -62,11 +62,12 @@ module Laser_Measure_Pointer()
             {
                 sphere(d=(Gimble_Arm_Cuff_Diameter/1.5) + Tolerance * 2);
                 translate([0,Measure_Pointer_Length,0])
-                    sphere(d=0.1,$fn=2);
+                    rotate([0,-90,0])
+                    cylinder(h=Gimble_Arm_Cuff_Diameter/1.5,d=0.1,$fn=2);
             }
             translate([0,-Laser_Gimble_Cull_Width/2,-Gimble_Arm_Cuff_Diameter/2])
                 cube([Gimble_Arm_Cuff_Diameter,Laser_Gimble_Cull_Width * 2,Gimble_Arm_Cuff_Diameter]);
-            translate([-(Gimble_Arm_Cuff_Diameter+Measure_Holder_Wall_Width),-Laser_Gimble_Cull_Width,-Gimble_Arm_Cuff_Diameter/2])
+            translate([-(Gimble_Arm_Cuff_Diameter+Measure_Holder_Wall_Width),-Laser_Gimble_Cull_Width/2,-Gimble_Arm_Cuff_Diameter/2])
                 cube([Gimble_Arm_Cuff_Diameter,Laser_Gimble_Cull_Width * 2,Gimble_Arm_Cuff_Diameter]);
         }
     }

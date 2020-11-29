@@ -1,0 +1,3 @@
+[submodule "esp32/nixnotifer/ESP8266GitHubNotificator"]
+	path = esp32/nixnotifer/ESP8266GitHubNotificator
+	url = https://github.com/nixinator/ESP8266GitHubNotificator.git

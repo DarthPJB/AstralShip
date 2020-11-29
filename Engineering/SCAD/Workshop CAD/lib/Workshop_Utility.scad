@@ -45,8 +45,6 @@ module PointSet(Origin = [[0,0,0],[0,0,0]], ModuleTestData = [[0,0,0]], Colour =
     color(Colour)
     translate(Origin[0])
     {
-        rotate(Origin[1])
-        {
             if($preview == false)
                 LaserLevel();
             else
@@ -54,20 +52,19 @@ module PointSet(Origin = [[0,0,0],[0,0,0]], ModuleTestData = [[0,0,0]], Colour =
             for( c = ModuleTestData)
             {
                 //Rotate to match laser-measure
-                rotate([0,c[1]-90, -c[0]])
+                rotate([0,c[1]-90, -c[0]] + Origin[1])
                 {
                     if(beam_render == true)
                     {
-                        cube([c[2] + Beam_additional_offset,1,1]);
+                        cube([c[2] + Beam_additional_offset ,1,1]);
                     }
                     //Translate to a distance
                     translate([c[2] + Beam_additional_offset,0,0])
                         //Correct Cube rotation to be static
                         rotate([0,90-(c[1]-90), c[0]])
-                            cube(Cube_Size);   
+                            cube(Cube_Size, center = true);   
                 }
 
             }
-        }
     }
 }

@@ -45,7 +45,7 @@ void loop() {
  
     HTTPClient http;
  
-    http.begin("https://jsonplaceholder.typicode.com/posts?userId=1", 443, "",root_ca,nullptr,nullptr); //Specify the URL and certificate
+    http.begin("https://jsonplaceholder.typicode.com", 443, "/posts?userId=1",root_ca,nullptr,nullptr); //Specify the URL and certificate
     int httpCode = http.GET();                                                  //Make the request
  
     if (httpCode > 0) { //Check for the returning code

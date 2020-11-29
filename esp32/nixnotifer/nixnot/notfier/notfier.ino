@@ -38,7 +38,8 @@ const char *password = "piratesrus";
 
 WebServer server(80);
 
-const int led = 13;
+const int led = 2;
+#define LED_BUILTIN 2;
 
 void handleRoot() {
   digitalWrite(led, 1);

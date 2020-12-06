@@ -154,7 +154,7 @@ Test_Set_Five = [
 
 Test_Set_Six = [
     [0,0,0]
-]
+];
 
 module Workshop_Assembly(Cube_Size = 50, draw_beams = false)
 {

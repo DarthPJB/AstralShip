@@ -11,7 +11,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-
+  boot.initrd.kernelModules  = ["amdgpu"];
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
   # Use the systemd-boot EFI boot loader.
@@ -88,7 +88,7 @@ console.font = "Lat2-Terminus16";
   services.xserver.xkbOptions = "eurosign:e";
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
-
+  services.xserver.videoDrivers = ["amdgpu"];
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
   services.xserver.windowManager.i3.enable = true;
@@ -121,6 +121,13 @@ services.compton.enable = true;
         extraGroups = ["wheel" "vboxusers"];
         home = "/home/walker";
   };
+
+  users.extraUsers.user223219B={
+	uid=1001;
+	isNormalUser = true;
+	extraGroups = ["wheel" "dialout"];
+	home = "/home/colin";
+};
 
 
   # This value determines the NixOS release with which your system is to be

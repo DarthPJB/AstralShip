@@ -98,13 +98,15 @@ module Laser_Measure_Mount()
                         cylinder(d=Gimble_Arm_Cuff_Diameter -((minkowskiRound * 2) + Tolerance), h=(Laser_Gimble_Cull_Width - Gimble_Arm_Retraction) + Tolerance * 2, center=true);
                 sphere(minkowskiRound);
             }
+            
+            
         }
         Laser_Measure_Keyhole_CutOut();
 
-        translate(origin)
-            Laser_Measure();
+        translate(origin+[0,-14,0])
+            #Laser_Measure();
     }
 }
 
-Laser_Measure_Mount();
-!Laser_Measure_Pointer();
+!Laser_Measure_Mount();
+Laser_Measure_Pointer();

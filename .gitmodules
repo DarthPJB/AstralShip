@@ -1,3 +1,9 @@
 [submodule "esp32/nixnotifer/ESP8266GitHubNotificator"]
 	path = esp32/nixnotifer/ESP8266GitHubNotificator
 	url = https://github.com/nixinator/ESP8266GitHubNotificator.git
+[submodule "rc3-Astralship"]
+	path = rc3-Astralship
+	url = git@github.com:DarthPJB/rc3-Astralship.git
+[submodule "Astral-ship-engineering"]
+	path = Engineering
+	url = git@github.com:DarthPJB/Astral-ship-engineering.git

@@ -1,8 +1,8 @@
 [submodule "rc3-Astralship"]
 	path = rc3-Astralship
 	url = git@github.com:DarthPJB/rc3-Astralship.git
-[submodule "engineering"]
-	path = engineering
+[submodule "Engineering"]
+	path = Engineering
 	url = git@github.com:DarthPJB/Astral-ship-engineering.git
 [submodule "NixNotifier"]
 	path = NixNotifier
